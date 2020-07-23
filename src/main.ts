@@ -1,19 +1,22 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
+// import * as github from '@actions/github'
+import {IncomingWebhook} from '@slack/webhook'
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
+    const webhook = core.getInput('webhook')
+    const channel = core.getInput('channel')
+    const slack = new IncomingWebhook(webhook, {channel})
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
-
-    core.setOutput('time', new Date().toTimeString())
+    await slack.send({
+      text: 'Hello World!'
+      // text: JSON.stringify(github.context.payload, undefined, 2)
+    })
   } catch (error) {
     core.setFailed(error.message)
   }
 }
 
 run()
+
+export default run

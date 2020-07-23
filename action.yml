@@ -1,11 +1,16 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Slack CI Notifications'
+description: 'Slack notifications for GitHub Actions CI workflows.'
+author: 'Princeton-CDH'
 inputs:
-  milliseconds: # change this
+  webhook:
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    description: 'Slack webhook URL for posting notifications'
+  channel:
+    required: false
+    description: 'Slack channel to post in; leave blank to use webhook default'
 runs:
   using: 'node12'
-  main: 'dist/index.js'
+  main: 'dist/main.js'
+branding:
+  icon: 'hash'
+  color: 'white'
